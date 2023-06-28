@@ -1,4 +1,4 @@
-package application.restwithspringbootandjava;
+package application.app;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
