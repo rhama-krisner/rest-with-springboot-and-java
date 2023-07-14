@@ -1,28 +1,36 @@
 package application.app.controller;
 
-import application.app.converters.NumberConverter;
-import application.app.math.SimpleMath;
-import org.springframework.web.bind.annotation.GetMapping;
+import application.app.model.Person;
+import application.app.service.PersonServices;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.concurrent.atomic.AtomicLong;
-
-import static application.app.converters.NumberConverter.convertToDouble;
-import static application.app.converters.NumberConverter.isNumeric;
+import java.util.List;
 
 @RestController
+@RequestMapping("/person")
 public class PersonController {
 
-    private final AtomicLong counter = new AtomicLong();
-    @GetMapping("/sum/{numberOne}/{numberTwo}")
-    public Double sum(@PathVariable("numberOne") String numberOne,
-                      @PathVariable("numberTwo") String numberTwo) throws Exception {
-        if (!isNumeric(numberOne) || !isNumeric(numberTwo)) {
-            throw new Exception("Os valores informados não são numéricos.");
-        }
+    @Autowired
+    private PersonServices service;
 
-        return math.sum(NumberConverter.convertToDouble(numberOne),
-                NumberConverter.convertToDouble(numberTwo));
+//    public PersonController(PersonServices services) {
+//        this.services = services;
+//    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public Person findById(@PathVariable(value = "id") String id) {
+        return service.findByID(id);
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Person> findAll(){
+        return service.findAll();
     }
 }
