@@ -1,7 +1,7 @@
 package application.app.exceptions.handler;
 
 import application.app.exceptions.ExceptioResponse;
-import application.app.exceptions.UnsuportedMathException;
+import application.app.exceptions.ResourceNorFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -23,13 +23,15 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
                 request.getDescription(false));
         return new ResponseEntity<>(exceptioResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    @ExceptionHandler(UnsuportedMathException.class)
-    public final ResponseEntity<ExceptioResponse> handleBadRequestExceptions(Exception ex, WebRequest request) {
+
+    @ExceptionHandler(ResourceNorFoundException.class)
+    public final ResponseEntity<ExceptioResponse> handleNotFoundExceptions(
+            Exception ex, WebRequest request) {
         ExceptioResponse exceptioResponse = new ExceptioResponse(
                 new Date(),
                 ex.getMessage(),
                 request.getDescription(false));
-        return new ResponseEntity<>(exceptioResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(exceptioResponse, HttpStatus.NOT_FOUND);
     }
 
 }
