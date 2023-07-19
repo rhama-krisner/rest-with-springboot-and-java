@@ -2,7 +2,7 @@ package application.app.controller;
 
 import application.app.model.Person;
 import application.app.service.PersonServices;
-import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,25 +22,25 @@ public class PersonController {
         return service.findById(id);
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @GetMapping(value = {"/", ""})
     public List<Person> findAll() {
         return service.findAll();
     }
 
-    @RequestMapping(
-            method = RequestMethod.POST)
+    @PostMapping
     public Person create(@RequestBody Person person) {
         return service.create(person);
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
+    @PutMapping
     public Person update(@RequestBody Person person) {
         return service.update(person);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable(value = "id") Long id) {
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 
