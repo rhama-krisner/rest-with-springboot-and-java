@@ -17,7 +17,7 @@ public class BookController {
     public BookController(BookService service) {
         this.service = service;
     }
-    @GetMapping(value = {""})
+    @GetMapping(value = {"", "/"})
     public List<Book> findAll(){
         return service.findAll();
     }
