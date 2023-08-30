@@ -47,6 +47,7 @@ public class BookService {
         entity.setLaunch_date(book.getLaunch_date());
         entity.setPrice(book.getPrice());
         entity.setLaunch_date(book.getLaunch_date());
+        entity.setIsbn(book.getIsbn());
 
         return repository.save(book);
     }
