@@ -15,6 +15,7 @@
 	<description>rest-with-springboot-and-java</description>
 	<properties>
 		<java.version>17</java.version>
+		<dozer.version>6.5.2</dozer.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -66,6 +67,12 @@
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>2.1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.dozermapper</groupId>
+			<artifactId>dozer-core</artifactId>
+			<version>${dozer.version}</version>
 		</dependency>
 
 

@@ -1,5 +1,6 @@
 package application.app.controller;
 
+import application.app.data.vo.v1.PersonVO;
 import application.app.model.Person;
 import application.app.service.PersonServices;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
@@ -39,7 +41,7 @@ public class PersonController {
                     @ApiResponse(description = "NOT FOUND", responseCode = "404", content = @Content),
                     @ApiResponse(description = "INTERNAL ERROR", responseCode = "500", content = @Content)
             })
-    public List<Person> findAll() {
+    public List<PersonVO> findAll() {
         return service.findAll();
     }
 
@@ -55,7 +57,7 @@ public class PersonController {
                     @ApiResponse(description = "NOT FOUND", responseCode = "404", content = @Content),
                     @ApiResponse(description = "INTERNAL ERROR", responseCode = "500", content = @Content)
             })
-    public Person findById(@PathVariable(value = "id") Long id) {
+    public PersonVO findById(@PathVariable(value = "id") Long id) {
         return service.findById(id);
     }
 
@@ -65,12 +67,12 @@ public class PersonController {
             tags = {"People"},
             responses = {
                     @ApiResponse(description = "SUCCESS", responseCode = "200",
-                            content = @Content(schema = @Schema(implementation = Person.class))),
+                            content = @Content(schema = @Schema(implementation = PersonVO.class))),
                     @ApiResponse(description = "BAD REQUEST", responseCode = "204", content = @Content),
                     @ApiResponse(description = "UNAUTHORIZED", responseCode = "401", content = @Content),
                     @ApiResponse(description = "INTERNAL ERROR", responseCode = "500", content = @Content)
             })
-    public Person create(@RequestBody Person person) {
+    public PersonVO create(@RequestBody PersonVO person) {
         return service.create(person);
     }
 
@@ -84,7 +86,7 @@ public class PersonController {
                     @ApiResponse(description = "UNAUTHORIZED", responseCode = "401", content = @Content),
                     @ApiResponse(description = "INTERNAL ERROR", responseCode = "500", content = @Content)
             })
-    public Person update(@RequestBody Person person) {
+    public PersonVO update(@RequestBody PersonVO person) {
         return service.update(person);
     }
 

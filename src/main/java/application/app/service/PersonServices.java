@@ -1,6 +1,8 @@
 package application.app.service;
 
+import application.app.data.vo.v1.PersonVO;
 import application.app.exceptions.ResourceNorFoundException;
+import application.app.mapper.DozerMapper;
 import application.app.model.Person;
 import application.app.repository.PersonRepository;
 import org.springframework.stereotype.Service;
@@ -14,28 +16,33 @@ public class PersonServices {
 
      final PersonRepository repository;
 
+
     public PersonServices(PersonRepository repository) {
         this.repository = repository;
     }
 
-    public Person findById(Long id) {
+    public PersonVO findById(Long id) {
         logger.info("Buscando uma pessoa");
-
-        return repository.findById(id).orElseThrow(() -> new ResourceNorFoundException("Não foram encontrado dados para esse ID"));
+        var entity = repository.findById(id).orElseThrow(() ->
+                new ResourceNorFoundException("Não foram encontrado dados para esse ID"));
+        return DozerMapper.parseObject(entity, PersonVO.class);
     }
 
-    public List<Person> findAll() {
+    public List<PersonVO> findAll() {
         logger.info("Buscando todas as pessoas");
 
-        return repository.findAll();
+        return DozerMapper.parseListObjects(repository.findAll(), PersonVO.class);
     }
 
-    public Person create(Person person) {
+    public PersonVO create(PersonVO person) {
         logger.info("Criando uma pessoa.");
-        return repository.save(person);
+
+        var entity = DozerMapper.parseObject(person, Person.class);
+
+        return DozerMapper.parseObject(repository.save(entity), PersonVO.class);
     }
 
-    public Person update(Person person) {
+    public PersonVO update(PersonVO person) {
         logger.info("Atualizado pessoa.");
 
         Person entity = repository.findById(person.getId()).orElseThrow(() -> new ResourceNorFoundException("Não foram encontrado dados para esse ID"));
@@ -45,14 +52,15 @@ public class PersonServices {
         entity.setAddress(person.getAddress());
         entity.setGender(person.getGender());
 
-        return repository.save(person);
+        return DozerMapper.parseObject(repository.save(entity), PersonVO.class);
     }
 
     public void delete(Long id) {
         logger.info("Excluindo uma pessoa");
 
-        Person entity = repository.findById(id).orElseThrow(() -> new ResourceNorFoundException("Sem dados encontrados nesse ID"));
+        var entity = repository.findById(id).orElseThrow(() -> new ResourceNorFoundException("Sem dados encontrados nesse ID"));
         repository.delete(entity);
+
     }
 
 }
