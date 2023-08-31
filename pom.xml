@@ -68,6 +68,7 @@
 			<version>2.1.0</version>
 		</dependency>
 
+<<<<<<< HEAD
 		<dependency>
 			<groupId>org.hibernate.orm</groupId>
 			<artifactId>hibernate-community-dialects</artifactId>
@@ -81,6 +82,19 @@
 
 
 
+=======
+<!--		<dependency>-->
+<!--			<groupId>com.github.dozermapper</groupId>-->
+<!--			<artifactId>dozer-core</artifactId>-->
+<!--			<version>6.4.0</version>-->
+<!--		</dependency>-->
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+
+>>>>>>> ValueObject
 
 	</dependencies>
 
