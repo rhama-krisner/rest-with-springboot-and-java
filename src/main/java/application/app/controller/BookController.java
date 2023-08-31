@@ -42,7 +42,7 @@ public class BookController {
     @CrossOrigin(origins = "http://localhost:8080")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @Operation(summary = "Find book by id", description = "Finds book by ID",
-            tags = {"Book"},
+            tags = {"Books"},
             responses = {
                     @ApiResponse(description = "SUCCESS", responseCode = "200",
                             content = @Content(schema = @Schema(implementation = Book.class))),
@@ -58,7 +58,7 @@ public class BookController {
     @CrossOrigin(origins = {"http://localhost:8080"})
     @PostMapping
     @Operation(summary = "Add new book", description = "Add new book",
-            tags = {"Book"},
+            tags = {"Books"},
             responses = {
                     @ApiResponse(description = "SUCCESS", responseCode = "200",
                             content = @Content(schema = @Schema(implementation = Book.class))),
@@ -72,7 +72,7 @@ public class BookController {
 
     @PutMapping
     @Operation(summary = "Updated", description = "Update book",
-            tags = {"Book"},
+            tags = {"Books"},
             responses = {
                     @ApiResponse(description = "SUCCESS", responseCode = "200",
                             content = @Content(schema = @Schema(implementation = Book.class))),
@@ -86,7 +86,7 @@ public class BookController {
 
     @DeleteMapping(value = "/{id}")
     @Operation(summary = "Delete book", description = "Add new book",
-            tags = {"Book"},
+            tags = {"Books"},
             responses = {
                     @ApiResponse(description = "NO CONTENT", responseCode = "204",content = @Content),
                     @ApiResponse(description = "BAD REQUEST", responseCode = "204", content = @Content),

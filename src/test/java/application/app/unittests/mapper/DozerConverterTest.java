@@ -1,15 +1,15 @@
 package application.app.unittests.mapper;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.List;
-
 import application.app.data.vo.v1.PersonVO;
 import application.app.mapper.DozerMapper;
 import application.app.model.Person;
 import application.app.unittests.mapper.mocks.MockPerson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DozerConverterTest {
 
