@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/person/v1")
+@RequestMapping("/person")
 @Tag(name = "People", description = "Endpoints for managing people.")
 public class PersonController {
 
@@ -26,7 +26,7 @@ public class PersonController {
         this.service = service;
     }
 
-    @GetMapping(value = {""})
+    @GetMapping(value = {"", "/"})
     @Operation(summary = "Find all", description = "Find all people",
             tags = {"People"},
             responses = {
