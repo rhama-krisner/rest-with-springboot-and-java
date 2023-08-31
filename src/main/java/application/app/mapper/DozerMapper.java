@@ -1,7 +1,7 @@
 package application.app.mapper;
 
-//import com.github.dozermapper.core.DozerBeanMapperBuilder;
-//import com.github.dozermapper.core.Mapper;
+import com.github.dozermapper.core.DozerBeanMapperBuilder;
+import com.github.dozermapper.core.Mapper;
 
 import org.modelmapper.ModelMapper;
 
@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DozerMapper {
-    private static final ModelMapper mapper = new ModelMapper();
+//    private static final ModelMapper mapper = new ModelMapper();
+    private static final Mapper mapper = DozerBeanMapperBuilder.buildDefault();
 
     public static <O,D> D parseObject(O origin, Class<D> destination){
         return mapper.map(origin, destination);

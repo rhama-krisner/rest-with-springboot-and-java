@@ -1,6 +1,9 @@
 package application.app.service;
 
+import application.app.controller.PersonController;
 import application.app.data.vo.v1.PersonVO;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import application.app.exceptions.ResourceNorFoundException;
 import application.app.mapper.DozerMapper;
 import application.app.model.Person;
@@ -23,9 +26,14 @@ public class PersonServices {
 
     public PersonVO findById(Long id) {
         logger.info("Buscando uma pessoa");
+
         var entity = repository.findById(id).orElseThrow(() ->
                 new ResourceNorFoundException("Não foram encontrado dados para esse ID"));
-        return DozerMapper.parseObject(entity, PersonVO.class);
+
+        PersonVO vo = DozerMapper.parseObject(entity, PersonVO.class);
+        vo.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
+
+        return vo;
     }
 
     public List<PersonVO> findAll() {
@@ -45,7 +53,7 @@ public class PersonServices {
     public PersonVO update(PersonVO person) {
         logger.info("Atualizado pessoa.");
 
-        Person entity = repository.findById(person.getId()).orElseThrow(() -> new ResourceNorFoundException("Não foram encontrado dados para esse ID"));
+        Person entity = repository.findById(person.getKey()).orElseThrow(() -> new ResourceNorFoundException("Não foram encontrado dados para esse ID"));
 
         entity.setFirstName(person.getFirstName());
         entity.setLastName(person.getLastName());
