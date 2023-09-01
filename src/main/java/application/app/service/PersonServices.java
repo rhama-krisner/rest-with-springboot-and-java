@@ -30,7 +30,7 @@ public class PersonServices {
         var entity = repository.findById(id).orElseThrow(() ->
                 new ResourceNorFoundException("Não foram encontrado dados para esse ID"));
 
-        PersonVO vo = DozerMapper.parseObject(entity, PersonVO.class);
+        var vo = DozerMapper.parseObject(entity, PersonVO.class);
         vo.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
 
         return vo;
@@ -39,28 +39,38 @@ public class PersonServices {
     public List<PersonVO> findAll() {
         logger.info("Buscando todas as pessoas");
 
-        return DozerMapper.parseListObjects(repository.findAll(), PersonVO.class);
+        var allPerson = DozerMapper.parseListObjects(repository.findAll(), PersonVO.class);
+        allPerson.forEach(p ->
+                p.add(linkTo(methodOn(PersonController.class).findById(p.getKey())).withSelfRel()));
+
+        return allPerson;
     }
 
     public PersonVO create(PersonVO person) {
         logger.info("Criando uma pessoa.");
 
         var entity = DozerMapper.parseObject(person, Person.class);
+        var vo = DozerMapper.parseObject(repository.save(entity), PersonVO.class);
 
-        return DozerMapper.parseObject(repository.save(entity), PersonVO.class);
+        vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel());
+
+        return vo;
     }
 
     public PersonVO update(PersonVO person) {
         logger.info("Atualizado pessoa.");
 
-        Person entity = repository.findById(person.getKey()).orElseThrow(() -> new ResourceNorFoundException("Não foram encontrado dados para esse ID"));
+        var entity = repository.findById(person.getKey()).orElseThrow(() -> new ResourceNorFoundException("Não foram encontrado dados para esse ID"));
 
         entity.setFirstName(person.getFirstName());
         entity.setLastName(person.getLastName());
         entity.setAddress(person.getAddress());
         entity.setGender(person.getGender());
 
-        return DozerMapper.parseObject(repository.save(entity), PersonVO.class);
+        PersonVO vo = DozerMapper.parseObject(entity, PersonVO.class);
+        vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel());
+
+        return vo;
     }
 
     public void delete(Long id) {
