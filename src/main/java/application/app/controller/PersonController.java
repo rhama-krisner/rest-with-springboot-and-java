@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +27,11 @@ public class PersonController {
         this.service = service;
     }
 
-    @GetMapping(value = {"", "/"})
+    @GetMapping(value = {"", "/"},
+            produces = {MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_XML_VALUE,
+                    "applicatio/x-yaml"
+            })
     @Operation(summary = "Find all", description = "Find all people",
             tags = {"People"},
             responses = {
@@ -34,7 +39,8 @@ public class PersonController {
                             content = {
                                     @Content(
                                             mediaType = "application/json",
-                                            array = @ArraySchema(schema = @Schema(implementation = Person.class))
+                                            array = @ArraySchema(
+                                                    schema = @Schema(implementation = Person.class))
                                     )}),
                     @ApiResponse(description = "BAD REQUEST", responseCode = "400", content = @Content),
                     @ApiResponse(description = "UNATHORIZED", responseCode = "401", content = @Content),
@@ -46,7 +52,11 @@ public class PersonController {
     }
 
     @CrossOrigin(origins = "http://localhost:8080")
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET,
+            produces = {MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_XML_VALUE,
+                    "applicatio/x-yaml"
+    })
     @Operation(summary = "Find person by id", description = "Finds person by ID",
             tags = {"People"},
             responses = {
@@ -62,7 +72,10 @@ public class PersonController {
     }
 
     @CrossOrigin(origins = {"http://localhost:8080", "https://erudio.com.br"})
-    @PostMapping
+    @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE,
+            "applicatio/x-yaml"
+    })
     @Operation(summary = "Add new person", description = "Add new person",
             tags = {"People"},
             responses = {
@@ -76,7 +89,10 @@ public class PersonController {
         return service.create(person);
     }
 
-    @PutMapping
+    @PutMapping(produces = {MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE,
+            "applicatio/x-yaml"
+    })
     @Operation(summary = "Updated", description = "Update person",
             tags = {"People"},
             responses = {
