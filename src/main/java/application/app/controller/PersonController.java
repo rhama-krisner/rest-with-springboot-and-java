@@ -56,7 +56,6 @@ public class PersonController {
         return service.findAll();
     }
 
-    @CrossOrigin(origins = "http://localhost:8080")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET,
             produces = {MediaType.APPLICATION_JSON_VALUE,
                     MediaType.APPLICATION_XML_VALUE,
@@ -76,7 +75,6 @@ public class PersonController {
         return service.findById(id);
     }
 
-    @CrossOrigin(origins = {"http://localhost:8080", "https://erudio.com.br"})
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE,
             MediaType.APPLICATION_XML_VALUE,
             APPLICATION_YAML
@@ -93,13 +91,12 @@ public class PersonController {
     public PersonVO create(@RequestBody PersonVO person) {
         return service.create(person);
     }
-
-    @CrossOrigin(origins = "http://localhost:8080")
-    @PutMapping(produces = { MediaType.APPLICATION_JSON_VALUE,
+    @PutMapping(value = "/{id}",
+            produces = { MediaType.APPLICATION_JSON_VALUE,
             MediaType.APPLICATION_XML_VALUE,
             APPLICATION_YAML})
-    public PersonVO update(@RequestBody PersonVO person) {
-        PersonVO personVO = service.update(person);
+    public PersonVO update(@PathVariable Long id ,@RequestBody PersonVO person) {
+        PersonVO personVO = service.update(id, person);
         personVO.add(linkTo(methodOn(PersonController.class).findById(personVO.getKey())).withSelfRel());
         return personVO;
     }

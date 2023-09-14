@@ -57,8 +57,8 @@ public class PersonServices {
         return vo;
     }
 
-    public PersonVO update(PersonVO person) {
-        Person entity = repository.findById(person.getKey()).orElseThrow(() -> new ResourceNotFoundException("Não foram encontrado dados para esse ID"));
+    public PersonVO update(Long id, PersonVO person) {
+        Person entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Não foram encontrado dados para esse ID"));
 
         entity.setFirstName(person.getFirstName());
         entity.setLastName(person.getLastName());

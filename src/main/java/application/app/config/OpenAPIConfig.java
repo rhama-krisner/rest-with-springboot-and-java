@@ -12,7 +12,7 @@ public class OpenAPIConfig {
     public OpenAPI customOpenApi() {
         return new OpenAPI().info(
                 new Info()
-                        .title("Restfull API with SpringBoot 3.0")
+                        .title("Restfull API com SpringBoot 3.0")
                         .version("v1")
                         .description("")
                         .termsOfService(
