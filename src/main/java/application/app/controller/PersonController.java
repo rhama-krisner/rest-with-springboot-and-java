@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static application.app.util.MediaType.*;
+
 @RestController
 @RequestMapping("/api/person/v1")
 @Tag(name = "People", description = "Endpoints for managing people.")
@@ -30,7 +32,8 @@ public class PersonController {
     @GetMapping(value = {"", "/"},
             produces = {MediaType.APPLICATION_JSON_VALUE,
                     MediaType.APPLICATION_XML_VALUE,
-                    "applicatio/x-yaml"
+                    APPLICATION_YAML
+
             })
     @Operation(summary = "Find all", description = "Find all people",
             tags = {"People"},
@@ -55,8 +58,8 @@ public class PersonController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET,
             produces = {MediaType.APPLICATION_JSON_VALUE,
                     MediaType.APPLICATION_XML_VALUE,
-                    "applicatio/x-yaml"
-    })
+                    APPLICATION_YAML
+            })
     @Operation(summary = "Find person by id", description = "Finds person by ID",
             tags = {"People"},
             responses = {
@@ -74,7 +77,7 @@ public class PersonController {
     @CrossOrigin(origins = {"http://localhost:8080", "https://erudio.com.br"})
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE,
             MediaType.APPLICATION_XML_VALUE,
-            "applicatio/x-yaml"
+            APPLICATION_YAML
     })
     @Operation(summary = "Add new person", description = "Add new person",
             tags = {"People"},
@@ -91,7 +94,7 @@ public class PersonController {
 
     @PutMapping(produces = {MediaType.APPLICATION_JSON_VALUE,
             MediaType.APPLICATION_XML_VALUE,
-            "applicatio/x-yaml"
+            APPLICATION_YAML
     })
     @Operation(summary = "Updated", description = "Update person",
             tags = {"People"},
@@ -110,7 +113,7 @@ public class PersonController {
     @Operation(summary = "Delete person", description = "Add new person",
             tags = {"People"},
             responses = {
-                    @ApiResponse(description = "NO CONTENT", responseCode = "204",content = @Content),
+                    @ApiResponse(description = "NO CONTENT", responseCode = "204", content = @Content),
                     @ApiResponse(description = "BAD REQUEST", responseCode = "204", content = @Content),
                     @ApiResponse(description = "UNAUTHORIZED", responseCode = "401", content = @Content),
                     @ApiResponse(description = "INTERNAL ERROR", responseCode = "500", content = @Content)
