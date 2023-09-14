@@ -1,7 +1,7 @@
 package application.app.exceptions.handler;
 
 import application.app.exceptions.ExceptioResponse;
-import application.app.exceptions.ResourceNorFoundException;
+import application.app.exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -24,7 +24,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
         return new ResponseEntity<>(exceptioResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(ResourceNorFoundException.class)
+    @ExceptionHandler(ResourceNotFoundException.class)
     public final ResponseEntity<ExceptioResponse> handleNotFoundExceptions(
             Exception ex, WebRequest request) {
         ExceptioResponse exceptioResponse = new ExceptioResponse(

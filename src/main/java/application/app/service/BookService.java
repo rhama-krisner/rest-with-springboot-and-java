@@ -1,16 +1,12 @@
 package application.app.service;
 
-import application.app.exceptions.ResourceNorFoundException;
+import application.app.exceptions.ResourceNotFoundException;
 import application.app.model.Book;
-import application.app.model.Person;
 import application.app.repository.BookRepository;
-import io.micrometer.observation.GlobalObservationConvention;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.logging.Logger;
-
-import static org.hibernate.query.results.Builders.entity;
 
 @Service
 public class BookService {
@@ -24,7 +20,7 @@ public class BookService {
     public Book findById(Long id){
         logger.info("Buscando Livro");
 
-        return repository.findById(id).orElseThrow(()-> new ResourceNorFoundException("Não foi encontrado com esse id."));
+        return repository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Não foi encontrado com esse id."));
     }
 
     public List<Book> findAll(){
@@ -41,7 +37,7 @@ public class BookService {
     public Book update(Book book){
         logger.info("Atualizando livro.");
 
-        Book entity = repository.findById(book.getId()).orElseThrow(()-> new ResourceNorFoundException("Não foi encontrado dados para esse id."));
+        Book entity = repository.findById(book.getId()).orElseThrow(()-> new ResourceNotFoundException("Não foi encontrado dados para esse id."));
         entity.setAuthor(book.getAuthor());
         entity.setTitle(book.getTitle());
         entity.setLaunch_date(book.getLaunch_date());
@@ -55,7 +51,7 @@ public class BookService {
     public void delete(Long id){
         logger.info("Livro excluído.");
 
-        Book entity = repository.findById(id).orElseThrow(()->new ResourceNorFoundException("Sem dado encontrado nesse ID."));
+        Book entity = repository.findById(id).orElseThrow(()->new ResourceNotFoundException("Sem dado encontrado nesse ID."));
         repository.delete(entity);
     }
 }

@@ -4,7 +4,7 @@ import application.app.controller.PersonController;
 import application.app.data.vo.v1.PersonVO;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-import application.app.exceptions.ResourceNorFoundException;
+import application.app.exceptions.ResourceNotFoundException;
 import application.app.mapper.DozerMapper;
 import application.app.model.Person;
 import application.app.repository.PersonRepository;
@@ -28,7 +28,7 @@ public class PersonServices {
         logger.info("Buscando uma pessoa");
 
         var entity = repository.findById(id).orElseThrow(() ->
-                new ResourceNorFoundException("Não foram encontrado dados para esse ID"));
+                new ResourceNotFoundException("Não foram encontrado dados para esse ID"));
 
         var vo = DozerMapper.parseObject(entity, PersonVO.class);
         vo.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
@@ -58,9 +58,7 @@ public class PersonServices {
     }
 
     public PersonVO update(PersonVO person) {
-        logger.info("Atualizado pessoa.");
-
-        var entity = repository.findById(person.getKey()).orElseThrow(() -> new ResourceNorFoundException("Não foram encontrado dados para esse ID"));
+        Person entity = repository.findById(person.getKey()).orElseThrow(() -> new ResourceNotFoundException("Não foram encontrado dados para esse ID"));
 
         entity.setFirstName(person.getFirstName());
         entity.setLastName(person.getLastName());
@@ -70,13 +68,14 @@ public class PersonServices {
         PersonVO vo = DozerMapper.parseObject(entity, PersonVO.class);
         vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel());
 
+        logger.info("Atualizado pessoa.");
         return vo;
     }
 
     public void delete(Long id) {
         logger.info("Excluindo uma pessoa");
 
-        var entity = repository.findById(id).orElseThrow(() -> new ResourceNorFoundException("Sem dados encontrados nesse ID"));
+        var entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Sem dados encontrados nesse ID"));
         repository.delete(entity);
 
     }

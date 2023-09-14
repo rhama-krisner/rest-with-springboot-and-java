@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static application.app.util.MediaType.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/api/person/v1")
@@ -92,21 +94,14 @@ public class PersonController {
         return service.create(person);
     }
 
-    @PutMapping(produces = {MediaType.APPLICATION_JSON_VALUE,
+    @CrossOrigin(origins = "http://localhost:8080")
+    @PutMapping(produces = { MediaType.APPLICATION_JSON_VALUE,
             MediaType.APPLICATION_XML_VALUE,
-            APPLICATION_YAML
-    })
-    @Operation(summary = "Updated", description = "Update person",
-            tags = {"People"},
-            responses = {
-                    @ApiResponse(description = "SUCCESS", responseCode = "200",
-                            content = @Content(schema = @Schema(implementation = Person.class))),
-                    @ApiResponse(description = "BAD REQUEST", responseCode = "204", content = @Content),
-                    @ApiResponse(description = "UNAUTHORIZED", responseCode = "401", content = @Content),
-                    @ApiResponse(description = "INTERNAL ERROR", responseCode = "500", content = @Content)
-            })
+            APPLICATION_YAML})
     public PersonVO update(@RequestBody PersonVO person) {
-        return service.update(person);
+        PersonVO personVO = service.update(person);
+        personVO.add(linkTo(methodOn(PersonController.class).findById(personVO.getKey())).withSelfRel());
+        return personVO;
     }
 
     @DeleteMapping(value = "/{id}")
